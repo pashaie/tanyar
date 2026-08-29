@@ -8,6 +8,13 @@
       content="تَن‌یار — ردیاب تمرین ورزشی فارسی با برنامه هفتگی، عادات روزانه، تایمر تمرین و تاریخچه. آفلاین و بدون نیاز به حساب کاربری."
     />
     <title>تَن‌یار</title>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('%BASE_URL%sw.js', {
+          scope: '%BASE_URL%',
+        })
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

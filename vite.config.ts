@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
+        // Register from HTML instead of the JS bundle so scanners
+        // (PWABuilder/Lighthouse) detect the SW before the app hydrates.
+        injectRegister: false,
         includeAssets: [
           'icons/logo.png',
           'favicon.ico',
@@ -89,7 +92,34 @@ export default defineConfig(({ mode }) => {
           ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,svg,png,woff2}'],
+          globPatterns: ['**/*.{js,css,html,ico,svg,png,woff2,webmanifest}'],
+          navigateFallback: 'index.html',
+          cleanupOutdatedCaches: true,
+          clientsClaim: true,
+          skipWaiting: true,
+          runtimeCaching: [
+            {
+              urlPattern: ({ request }) => request.destination === 'image',
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'images',
+                expiration: {
+                  maxEntries: 64,
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
+                },
+              },
+            },
+            {
+              urlPattern: ({ request }) =>
+                request.destination === 'style' ||
+                request.destination === 'script' ||
+                request.destination === 'worker',
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'assets',
+              },
+            },
+          ],
         },
       }),
     ],
