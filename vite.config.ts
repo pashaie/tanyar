@@ -13,16 +13,24 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.svg', 'icons/*.svg'],
+        includeAssets: [
+          'favicon.svg',
+          'icons/*.svg',
+          'screenshots/*.png',
+        ],
         manifest: {
+          id: 'tanyar',
           name: 'تَن‌یار',
           short_name: 'TanYar',
-          description: 'ردیاب تمرین ورزشی',
+          description:
+            'تَن‌یار یک ردیاب تمرین ورزشی فارسی است: برنامه هفتگی، عادات روزانه، تایمر تمرین و تاریخچه — آفلاین و بدون نیاز به حساب کاربری.',
           lang: 'fa',
           dir: 'rtl',
           theme_color: '#059669',
           background_color: '#ffffff',
           display: 'standalone',
+          orientation: 'portrait-primary',
+          categories: ['health', 'fitness', 'lifestyle'],
           start_url: base,
           icons: [
             {
@@ -38,15 +46,38 @@ export default defineConfig(({ mode }) => {
               purpose: 'any',
             },
             {
-              src: `${base}icons/icon-512.svg`,
+              src: `${base}icons/icon-maskable.svg`,
               sizes: '512x512',
               type: 'image/svg+xml',
               purpose: 'maskable',
             },
           ],
+          screenshots: [
+            {
+              src: `${base}screenshots/dashboard-mobile.png`,
+              sizes: '1024x1536',
+              type: 'image/png',
+              form_factor: 'narrow',
+              label: 'داشبورد امروز — عادات و تمرین‌های روزانه',
+            },
+            {
+              src: `${base}screenshots/workout-mobile.png`,
+              sizes: '1024x1536',
+              type: 'image/png',
+              form_factor: 'narrow',
+              label: 'تایمر تمرین — ثبت دو، پیاده‌روی و دوچرخه',
+            },
+            {
+              src: `${base}screenshots/plan-wide.png`,
+              sizes: '1536x1024',
+              type: 'image/png',
+              form_factor: 'wide',
+              label: 'برنامه هفتگی — برنامه‌ریزی تمرین برای هر روز',
+            },
+          ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,svg,woff2}'],
+          globPatterns: ['**/*.{js,css,html,ico,svg,png,woff2}'],
         },
       }),
     ],
