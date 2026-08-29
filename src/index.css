@@ -1,0 +1,30 @@
+@import '@fontsource/vazirmatn/400.css';
+@import '@fontsource/vazirmatn/500.css';
+@import '@fontsource/vazirmatn/700.css';
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Vazirmatn', system-ui, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+.dark body {
+  background-color: #030712;
+  color: #f9fafb;
+}
+
+#root {
+  min-height: 100svh;
+}
