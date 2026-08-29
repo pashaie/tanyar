@@ -14,8 +14,8 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: [
-          'favicon.svg',
-          'icons/*.svg',
+          'icons/logo.png',
+          'icons/*.png',
           'screenshots/*.png',
         ],
         manifest: {
@@ -34,21 +34,21 @@ export default defineConfig(({ mode }) => {
           start_url: base,
           icons: [
             {
-              src: `${base}icons/icon-192.svg`,
+              src: `${base}icons/logo.png`,
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any',
+            },
+            {
+              src: `${base}icons/logo.png`,
               sizes: '192x192',
-              type: 'image/svg+xml',
+              type: 'image/png',
               purpose: 'any',
             },
             {
-              src: `${base}icons/icon-512.svg`,
+              src: `${base}icons/logo.png`,
               sizes: '512x512',
-              type: 'image/svg+xml',
-              purpose: 'any',
-            },
-            {
-              src: `${base}icons/icon-maskable.svg`,
-              sizes: '512x512',
-              type: 'image/svg+xml',
+              type: 'image/png',
               purpose: 'maskable',
             },
           ],

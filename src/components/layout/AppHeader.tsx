@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { formatTodayDate, toPersianDigits } from '../../lib/format'
-import { AppLogo, BellIcon, CalendarIcon, FlameIcon } from '../../lib/icons'
+import { AppLogo, BellIcon, CalendarIcon, FlameIcon, LogoAvatar } from '../../lib/icons'
 
 interface AppHeaderProps {
   streak?: number
@@ -30,12 +30,7 @@ export function AppHeader({
           <AppLogo />
         </Link>
 
-        <div
-          aria-hidden
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-sm font-bold text-white shadow-sm"
-        >
-          ت
-        </div>
+        <LogoAvatar />
       </div>
 
       {greeting ? (
@@ -46,12 +41,7 @@ export function AppHeader({
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>
             ) : null}
           </div>
-          <div
-            aria-hidden
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-sm font-bold text-white shadow-sm"
-          >
-            ت
-          </div>
+          <LogoAvatar />
         </div>
       ) : (
         <div className="flex items-start justify-between gap-3">

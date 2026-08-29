@@ -161,15 +161,44 @@ export function FlameIcon() {
   )
 }
 
-export function AppLogo({ compact = false }: { compact?: boolean }) {
+import { LOGO_ALT, LOGO_SRC } from './branding'
+
+export function AppLogo({
+  compact = false,
+  size = 'md',
+}: {
+  compact?: boolean
+  size?: 'sm' | 'md' | 'lg'
+}) {
+  const sizeClasses = {
+    sm: 'h-8',
+    md: 'h-10',
+    lg: 'h-12',
+  }
+
   return (
     <div className="flex items-center gap-2">
-      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-sm">
-        <DumbbellIcon />
-      </div>
+      <img
+        src={LOGO_SRC}
+        alt={LOGO_ALT}
+        className={`${sizeClasses[size]} w-auto object-contain`}
+      />
       {!compact ? (
         <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100">TanYar</span>
       ) : null}
+    </div>
+  )
+}
+
+export function LogoAvatar({ size = 'md' }: { size?: 'sm' | 'md' }) {
+  const boxClasses = {
+    sm: 'h-9 w-9 rounded-xl',
+    md: 'h-10 w-10 rounded-xl',
+  }
+
+  return (
+    <div className={`overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:ring-gray-800 ${boxClasses[size]}`}>
+      <img src={LOGO_SRC} alt={LOGO_ALT} className="h-full w-full object-cover" />
     </div>
   )
 }
