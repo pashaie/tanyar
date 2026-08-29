@@ -1,3 +1,4 @@
+import { Card } from '../ui/Card'
 import { getDateKey, getPersianDayOfWeek, PERSIAN_DAY_NAMES } from '../../lib/plan'
 import type { PlanCompletion, PlanItem, PersianDayOfWeek } from '../../types/plan'
 import { PlanItemCheckbox } from './PlanItemCheckbox'
@@ -28,17 +29,14 @@ export function DayPlanCard({
   }
 
   return (
-    <section
-      className={[
-        'rounded-2xl border p-4',
-        isToday
-          ? 'border-emerald-300 bg-emerald-50/50 dark:border-emerald-800 dark:bg-emerald-950/20'
-          : 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900',
-      ].join(' ')}
+    <Card
+      className={
+        isToday ? 'ring-2 ring-emerald-200 dark:ring-emerald-900' : undefined
+      }
     >
       <div className="mb-3 flex items-center justify-between gap-2">
         <div>
-          <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+          <h3 className="font-bold text-gray-900 dark:text-gray-100">
             {PERSIAN_DAY_NAMES[dayOfWeek]}
             {isToday ? (
               <span className="mr-2 text-sm font-normal text-emerald-600 dark:text-emerald-400">
@@ -48,11 +46,13 @@ export function DayPlanCard({
           </h3>
         </div>
         {isFuture ? (
-          <span className="text-xs text-gray-400">آینده</span>
+          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-400 dark:bg-gray-800">
+            آینده
+          </span>
         ) : null}
       </div>
 
-      <div className="space-y-2">
+      <div className="divide-y divide-gray-100 dark:divide-gray-800">
         {items.map((item) => (
           <PlanItemCheckbox
             key={item.id}
@@ -64,7 +64,7 @@ export function DayPlanCard({
           />
         ))}
       </div>
-    </section>
+    </Card>
   )
 }
 

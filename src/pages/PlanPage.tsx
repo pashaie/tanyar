@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { WeeklyPlanOverview } from '../components/plan/WeeklyPlanOverview'
 import { Button } from '../components/ui/Button'
 import { WORKOUT_TYPE_LABELS, WORKOUT_TYPES } from '../lib/constants'
 import { PERSIAN_DAY_NAMES, PERSIAN_DAYS_ORDER } from '../lib/plan'
@@ -18,7 +19,18 @@ function createEmptyItem(dayOfWeek: PersianDayOfWeek, sortOrder: number): PlanIt
 }
 
 export function PlanPage() {
-  const { groupedPlan, loading, reloadPlanItems } = useWeeklyPlan()
+  const {
+    groupedPlan,
+    completions,
+    weekDates,
+    todayKey,
+    completedCheckable,
+    totalCheckable,
+    loading,
+    toggleItem,
+    reloadPlanItems,
+  } = useWeeklyPlan()
+  const [editMode, setEditMode] = useState(false)
   const [saving, setSaving] = useState(false)
 
   const handleAddItem = async (dayOfWeek: PersianDayOfWeek) => {
@@ -64,16 +76,41 @@ export function PlanPage() {
   }
 
   if (loading) {
-    return <p className="text-sm text-gray-500 dark:text-gray-400">در حال بارگذاری...</p>
+    return <p className="text-center text-sm text-gray-500 dark:text-gray-400">در حال بارگذاری...</p>
+  }
+
+  if (!editMode) {
+    return (
+      <div className="space-y-5">
+        <WeeklyPlanOverview
+          groupedPlan={groupedPlan}
+          completions={completions}
+          weekDates={weekDates}
+          todayKey={todayKey}
+          completedCheckable={completedCheckable}
+          totalCheckable={totalCheckable}
+          onToggle={(itemId, date) => void toggleItem(itemId, date)}
+        />
+
+        <Button variant="outline" fullWidth onClick={() => setEditMode(true)}>
+          ویرایش برنامه
+        </Button>
+      </div>
+    )
   }
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">برنامه هفتگی</h1>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          برنامه تکراری هر هفته را تنظیم کنید
-        </p>
+      <header className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">ویرایش برنامه</h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            برنامه تکراری هر هفته را تنظیم کنید
+          </p>
+        </div>
+        <Button variant="ghost" className="min-h-10 px-3 text-sm" onClick={() => setEditMode(false)}>
+          بازگشت
+        </Button>
       </header>
 
       <div className="space-y-4">
@@ -83,10 +120,10 @@ export function PlanPage() {
           return (
             <section
               key={dayOfWeek}
-              className="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900"
+              className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800"
             >
               <div className="mb-3 flex items-center justify-between gap-2">
-                <h2 className="font-semibold text-gray-900 dark:text-gray-100">
+                <h2 className="font-bold text-gray-900 dark:text-gray-100">
                   {PERSIAN_DAY_NAMES[dayOfWeek]}
                 </h2>
                 <Button
@@ -137,7 +174,7 @@ function PlanItemEditor({ item, disabled, onUpdate, onDelete }: PlanItemEditorPr
   const types: PlanItemType[] = ['rest', ...WORKOUT_TYPES]
 
   return (
-    <div className="space-y-2 rounded-xl border border-gray-100 p-3 dark:border-gray-800">
+    <div className="space-y-2 rounded-2xl bg-gray-50 p-3 dark:bg-gray-800/60">
       <div className="flex gap-2">
         <select
           value={item.type}
@@ -150,7 +187,7 @@ function PlanItemEditor({ item, disabled, onUpdate, onDelete }: PlanItemEditorPr
               durationMaxMinutes: type === 'rest' ? null : item.durationMaxMinutes,
             })
           }}
-          className="min-h-11 flex-1 rounded-lg border border-gray-200 bg-white px-3 text-sm dark:border-gray-700 dark:bg-gray-950"
+          className="min-h-11 flex-1 rounded-xl border-0 bg-white px-3 text-sm ring-1 ring-gray-200 dark:bg-gray-950 dark:ring-gray-700"
         >
           {types.map((type) => (
             <option key={type} value={type}>
@@ -177,7 +214,7 @@ function PlanItemEditor({ item, disabled, onUpdate, onDelete }: PlanItemEditorPr
                   durationMinutes: event.target.value ? Number(event.target.value) : null,
                 })
               }
-              className="min-h-11 rounded-lg border border-gray-200 bg-white px-3 text-sm dark:border-gray-700 dark:bg-gray-950"
+              className="min-h-11 rounded-xl border-0 bg-white px-3 text-sm ring-1 ring-gray-200 dark:bg-gray-950 dark:ring-gray-700"
             />
           </label>
           <label className="flex flex-1 flex-col gap-1 text-xs text-gray-500">
@@ -193,7 +230,7 @@ function PlanItemEditor({ item, disabled, onUpdate, onDelete }: PlanItemEditorPr
                 })
               }
               placeholder="—"
-              className="min-h-11 rounded-lg border border-gray-200 bg-white px-3 text-sm dark:border-gray-700 dark:bg-gray-950"
+              className="min-h-11 rounded-xl border-0 bg-white px-3 text-sm ring-1 ring-gray-200 dark:bg-gray-950 dark:ring-gray-700"
             />
           </label>
         </div>

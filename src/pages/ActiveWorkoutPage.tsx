@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AppHeader } from '../components/layout/AppHeader'
 import { ConfirmFinishDialog } from '../components/workout/ConfirmFinishDialog'
+import { WorkoutControls } from '../components/workout/WorkoutControls'
 import { WorkoutTimer } from '../components/workout/WorkoutTimer'
 import { WorkoutTypeSelector } from '../components/workout/WorkoutTypeSelector'
-import { Button } from '../components/ui/Button'
 import { useActiveWorkout } from '../context/ActiveWorkoutContext'
 import { useWorkoutTimer } from '../hooks/useWorkoutTimer'
 import type { WorkoutType } from '../types/workout'
@@ -60,72 +61,49 @@ export function ActiveWorkoutPage() {
   }
 
   if (loading) {
-    return <p className="text-sm text-gray-500 dark:text-gray-400">در حال بارگذاری...</p>
+    return <p className="text-center text-sm text-gray-500 dark:text-gray-400">در حال بارگذاری...</p>
   }
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">تمرین فعال</h1>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          نوع تمرین را انتخاب کنید و شروع کنید
-        </p>
-      </header>
+      <AppHeader greeting="سلام! 👋" subtitle="آماده‌ای برای بهتر شدن؟" showDate={false} />
 
-      <section className="space-y-3">
-        <h2 className="text-sm font-medium text-gray-700 dark:text-gray-300">نوع تمرین</h2>
-        <WorkoutTypeSelector
-          value={selectedType}
-          onChange={handleTypeChange}
-          disabled={status !== 'idle'}
-        />
-      </section>
+      <WorkoutTimer seconds={elapsedSeconds} running={status === 'running'} />
 
-      <WorkoutTimer seconds={elapsedSeconds} />
+      <WorkoutTypeSelector
+        value={selectedType}
+        onChange={handleTypeChange}
+        disabled={status !== 'idle'}
+      />
+
+      <WorkoutControls
+        status={status}
+        onStart={() => void handleStart()}
+        onPause={() => void pauseWorkout()}
+        onResume={() => void resumeWorkout()}
+        onFinish={() => setShowConfirm(true)}
+      />
 
       <section className="space-y-2">
-        <label htmlFor="notes" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label htmlFor="notes" className="text-sm font-bold text-gray-900 dark:text-gray-100">
           یادداشت
         </label>
-        <textarea
-          id="notes"
-          value={notes}
-          onChange={(event) => handleNotesChange(event.target.value)}
-          placeholder="یادداشت اختیاری..."
-          rows={3}
-          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none ring-emerald-500 focus:ring-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-gray-400">
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+            </svg>
+          </span>
+          <textarea
+            id="notes"
+            value={notes}
+            onChange={(event) => handleNotesChange(event.target.value)}
+            placeholder="...یادداشت خود را بنویسید"
+            rows={3}
+            className="w-full rounded-2xl border-0 bg-white px-4 py-3 ps-10 text-sm text-gray-900 shadow-sm ring-1 ring-gray-100 outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-900 dark:text-gray-100 dark:ring-gray-800"
+          />
+        </div>
       </section>
-
-      <div className="space-y-3">
-        {status === 'idle' ? (
-          <Button fullWidth onClick={() => void handleStart()}>
-            شروع
-          </Button>
-        ) : null}
-
-        {status === 'running' ? (
-          <>
-            <Button variant="secondary" fullWidth onClick={() => void pauseWorkout()}>
-              توقف
-            </Button>
-            <Button variant="primary" fullWidth onClick={() => setShowConfirm(true)}>
-              پایان
-            </Button>
-          </>
-        ) : null}
-
-        {status === 'paused' ? (
-          <>
-            <Button fullWidth onClick={() => void resumeWorkout()}>
-              ادامه
-            </Button>
-            <Button variant="secondary" fullWidth onClick={() => setShowConfirm(true)}>
-              پایان
-            </Button>
-          </>
-        ) : null}
-      </div>
 
       <ConfirmFinishDialog
         open={showConfirm}

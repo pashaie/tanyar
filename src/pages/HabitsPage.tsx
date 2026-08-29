@@ -61,9 +61,9 @@ export function HabitsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <header>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">عادات</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">عادات</h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           عادت بسازید و روزهای هفته را انتخاب کنید
         </p>
@@ -126,7 +126,7 @@ function HabitEditor({ habit, disabled, isNew, onSave, onDelete, onCancel }: Hab
   }
 
   return (
-    <section className="space-y-3 rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+    <section className="space-y-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
       <input
         type="text"
         value={title}

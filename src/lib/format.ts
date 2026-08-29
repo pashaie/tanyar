@@ -42,6 +42,22 @@ export function formatDate(isoDate: string): string {
   }).format(new Date(isoDate))
 }
 
+export function formatTodayDate(date: Date = new Date()): string {
+  return new Intl.DateTimeFormat('fa-IR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date)
+}
+
+export function formatShortDate(date: Date): string {
+  return new Intl.DateTimeFormat('fa-IR', {
+    day: 'numeric',
+    month: 'long',
+  }).format(date)
+}
+
 export function formatTime(isoDate: string): string {
   return new Intl.DateTimeFormat('fa-IR', {
     hour: '2-digit',
