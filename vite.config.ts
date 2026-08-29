@@ -15,9 +15,17 @@ export default defineConfig(({ mode }) => {
         registerType: 'autoUpdate',
         includeAssets: [
           'icons/logo.png',
-          'icons/*.png',
+          'favicon.ico',
+          'apple-touch-icon-180x180.png',
+          'pwa-*.png',
+          'maskable-icon-*.png',
           'screenshots/*.png',
         ],
+        pwaAssets: {
+          config: true,
+          includeHtmlHeadLinks: true,
+          injectThemeColor: true,
+        },
         manifest: {
           id: 'tanyar',
           name: 'تَن‌یار',
@@ -34,19 +42,23 @@ export default defineConfig(({ mode }) => {
           start_url: base,
           icons: [
             {
-              src: `${base}icons/logo.png`,
+              src: `${base}pwa-64x64.png`,
+              sizes: '64x64',
+              type: 'image/png',
+            },
+            {
+              src: `${base}pwa-192x192.png`,
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: `${base}pwa-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: `${base}icons/logo.png`,
-              sizes: '192x192',
-              type: 'image/png',
-              purpose: 'any',
-            },
-            {
-              src: `${base}icons/logo.png`,
+              src: `${base}maskable-icon-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
