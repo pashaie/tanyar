@@ -1,4 +1,5 @@
 import type { PlanItemType } from '../types/plan'
+import { LOGO_ALT, LOGO_SRC } from './branding'
 
 const iconClass = 'h-5 w-5 shrink-0'
 
@@ -161,8 +162,6 @@ export function FlameIcon() {
   )
 }
 
-import { LOGO_ALT, LOGO_SRC } from './branding'
-
 export function AppLogo({
   compact = false,
   size = 'md',
@@ -191,15 +190,17 @@ export function AppLogo({
 }
 
 export function LogoAvatar({ size = 'md' }: { size?: 'sm' | 'md' }) {
-  const boxClasses = {
-    sm: 'h-9 w-9 rounded-xl',
-    md: 'h-10 w-10 rounded-xl',
+  const sizeClasses = {
+    sm: 'h-9 w-9',
+    md: 'h-10 w-10',
   }
 
   return (
-    <div className={`overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:ring-gray-800 ${boxClasses[size]}`}>
-      <img src={LOGO_SRC} alt={LOGO_ALT} className="h-full w-full object-cover" />
-    </div>
+    <img
+      src={LOGO_SRC}
+      alt={LOGO_ALT}
+      className={`${sizeClasses[size]} object-contain`}
+    />
   )
 }
 
